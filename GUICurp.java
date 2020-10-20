@@ -7,21 +7,33 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.Color;
+
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUICurp extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textNombre;
+	private JTextField textApellidoPaterno;
+	private JTextField textApellidoMaterno;
+	private JTextField textAnio;
+	DefaultComboBoxModel modelEstados = new DefaultComboBoxModel();
+	ButtonGroup grupoBotones = new ButtonGroup();
+	int indice = 0;
+	listaPersonas Curps = new listaPersonas();
 
 	/**
 	 * Launch the application.
@@ -42,7 +54,50 @@ public class GUICurp extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public GUICurp() {
+		
+		String meses[] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto", "Septiembre", "Octubre", "Noviembre","Diciembre"};
+		
+		Estado estados[] = {
+			new Estado("Aguascalientes", "AG"),
+			new Estado("Baja california", "BC"),
+			new Estado("Baja california sur", "BS"),
+			new Estado("Campeche", "CM"),
+			new Estado("Chiapas", "CS"),
+			new Estado("Chihuahua", "CH"),
+			new Estado("Coahuila de Zaragoza", "CO"),
+			new Estado("Colima", "CL"),
+			new Estado("Ciudad de México", "CX"),
+			new Estado("Durango", "DG"),
+			new Estado("Guanajuato", "GT"),
+			new Estado("Guerrero", "GR"),
+			new Estado("Hidalgo", "HG"),
+			new Estado("Jalisco", "JC"),
+			new Estado("México", "EM"),
+			new Estado("Michoacan de Ocampo", "MI"),
+			new Estado("Morelos", "MO"),
+			new Estado("Nayarit", "NA"),
+			new Estado("Nuevo león", "NL"),
+			new Estado("Oaxaca", "OA"),
+			new Estado("Puebla", "PU"),
+			new Estado("Querétaro", "QT"),
+			new Estado("Quintana roo", "QR"),
+			new Estado("San luis potosí", "SL"),
+			new Estado("Sinaloa", "SI"),
+			new Estado("Sonora", "SO"),
+			new Estado("Tabasco", "TB"),
+			new Estado("Tamaulipas", "TM"),
+			new Estado("Tlaxcala", "TL"),
+			new Estado("Veracruz", "VE"),
+			new Estado("Yucatán", "YU"),
+			new Estado("Zacatecas", "ZA"),
+		};
+		
+		for(int i=0; i<estados.length; i++) {
+			modelEstados.addElement(estados[i]);
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 388, 504);
 		contentPane = new JPanel();
@@ -76,68 +131,128 @@ public class GUICurp extends JFrame {
 		lblNewLabel_5.setBounds(30, 258, 61, 16);
 		contentPane.add(lblNewLabel_5);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Masculino");
-		rdbtnNewRadioButton.setBounds(40, 286, 141, 23);
-		contentPane.add(rdbtnNewRadioButton);
+		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
+		rdbtnMasculino.setBounds(40, 286, 141, 23);
+		contentPane.add(rdbtnMasculino);
+		grupoBotones.add(rdbtnMasculino);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Femenino");
-		rdbtnNewRadioButton_1.setBounds(40, 311, 105, 23);
-		contentPane.add(rdbtnNewRadioButton_1);
+		JRadioButton rdbtnFemenino= new JRadioButton("Femenino");
+		rdbtnFemenino.setBounds(40, 311, 105, 23);
+		contentPane.add(rdbtnFemenino);
+		grupoBotones.add(rdbtnFemenino);
+		
 		
 		JLabel lblNewLabel_6 = new JLabel("Estado de nacimiento:");
 		lblNewLabel_6.setBounds(30, 346, 145, 16);
 		contentPane.add(lblNewLabel_6);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(175, 344, 145, 23);
-		contentPane.add(comboBox);
+		JComboBox cmbEstados = new JComboBox();
+		cmbEstados.setBounds(175, 344, 191, 23);
+		contentPane.add(cmbEstados);
+		cmbEstados.setModel(modelEstados);
 		
-		textField = new JTextField();
-		textField.setBounds(103, 62, 217, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(148, 90, 172, 26);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textNombre = new JTextField();
+		textNombre.setBounds(103, 62, 217, 26);
+		contentPane.add(textNombre);
+		textNombre.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(148, 118, 172, 26);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		textApellidoPaterno = new JTextField();
+		textApellidoPaterno.setBounds(148, 90, 172, 26);
+		contentPane.add(textApellidoPaterno);
+		textApellidoPaterno.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Generar CURP");
-		btnNewButton.setBounds(102, 393, 160, 36);
-		contentPane.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Mostrar otros CURP");
-		btnNewButton_1.setBounds(102, 441, 160, 36);
-		contentPane.add(btnNewButton_1);
+		textApellidoMaterno = new JTextField();
+		textApellidoMaterno.setBounds(148, 118, 172, 26);
+		contentPane.add(textApellidoMaterno);
+		textApellidoMaterno.setColumns(10);
+
 		
 		JLabel lblNewLabel_7 = new JLabel("Día");
 		lblNewLabel_7.setBounds(40, 174, 33, 16);
 		contentPane.add(lblNewLabel_7);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(71, 173, 61, 20);
-		contentPane.add(comboBox_1);
+		JComboBox cmbDia = new JComboBox();
+		cmbDia.setBounds(71, 173, 80, 20);
+		contentPane.add(cmbDia);
+		for (int i=0; i<31; i++) {
+			cmbDia.addItem(String.valueOf(i+1));
+		}
 		
 		JLabel lblNewLabel_8 = new JLabel("Mes");
 		lblNewLabel_8.setBounds(40, 202, 33, 16);
 		contentPane.add(lblNewLabel_8);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(71, 198, 110, 27);
-		contentPane.add(comboBox_2);
-		
+		JComboBox cmbMes = new JComboBox();
+		cmbMes.setBounds(71, 198, 145, 27);
+		contentPane.add(cmbMes);
+		for (int i= 0; i<meses.length; i++) {
+			cmbMes.addItem(meses[i]);
+		}
+				
 		JLabel lblNewLabel_9 = new JLabel("Año");
 		lblNewLabel_9.setBounds(40, 230, 33, 16);
 		contentPane.add(lblNewLabel_9);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(73, 225, 104, 26);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		textAnio = new JTextField();
+		textAnio.setBounds(73, 225, 104, 26);
+		contentPane.add(textAnio);
+		textAnio.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Generar CURP");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Persona persona = new Persona();
+				
+				persona.setNombre(textNombre.getText().toUpperCase());
+				persona.setApellidoPaterno(textApellidoPaterno.getText().toUpperCase());
+				persona.setApellidoMaterno(textApellidoMaterno.getText().toUpperCase());
+				persona.setDia(cmbDia.getSelectedItem().toString());
+				persona.setMes(cmbMes.getSelectedIndex() + 1);
+				persona.setAnio(textAnio.getText());	
+				if(rdbtnMasculino.isSelected()) { 
+					persona.setHombre(true); 
+				} else { 
+					persona.setHombre(false);
+				}
+				persona.setEstado((Estado) cmbEstados.getSelectedItem());
+				persona.setIndice(Integer.toString(indice));
+				
+				String CURP = persona.generateCurp();
+				
+				persona.setCurp(CURP);
+				JOptionPane.showMessageDialog(null, "Su CURP es: " + CURP);
+				
+				Curps.arrPersonas[indice] = persona;
+				
+				indice++;
+				textNombre.setText("");
+				textApellidoPaterno.setText("");
+				textApellidoMaterno.setText("");
+				textAnio.setText("");
+				cmbDia.setSelectedIndex(0);
+				cmbMes.setSelectedIndex(0);
+				cmbEstados.setSelectedIndex(0);
+			}
+		});
+		btnNewButton.setBounds(102, 393, 160, 36);
+		contentPane.add(btnNewButton);
+		
+		
+		
+		JButton btnMostrar = new JButton("Mostrar otros CURP");
+		btnMostrar.setBounds(102, 441, 160, 36);
+		contentPane.add(btnMostrar);
+		
+		
+		btnMostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnMostrar.setVisible(false);
+				MostrarCurps mostrarCurps = new MostrarCurps();
+				mostrarCurps.setVisible(true);
+				mostrarCurps.Curps.arrPersonas = Curps.arrPersonas;
+				
+			}
+		});
 	}
 }
