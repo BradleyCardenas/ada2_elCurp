@@ -116,51 +116,55 @@ public class MostrarCurps extends JFrame {
 		
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lblNombre.setText(Curps.arrPersonas[indice].nombre);
-				lblApellidos.setText(Curps.arrPersonas[indice].apellidoPaterno + " " + Curps.arrPersonas[indice].apellidoMaterno);
-				lblDate.setText(Curps.arrPersonas[indice].dia + "/" + Curps.arrPersonas[indice].mes + "/" + Curps.arrPersonas[indice].anio);
-				String sexo;
-				if (Curps.arrPersonas[indice].Hombre == true) {
-					sexo = "Masculino";
-				} else {
-					sexo = "Femenino";
+				try {
+					if (indice > 0 && indice < Curps.arrPersonas.length) {
+						indice--;
+						lblNombre.setText(Curps.arrPersonas[indice].nombre);
+						lblApellidos.setText(Curps.arrPersonas[indice].apellidoPaterno + " " + Curps.arrPersonas[indice].apellidoMaterno);
+						lblDate.setText(Curps.arrPersonas[indice].dia + "/" + Curps.arrPersonas[indice].mes + "/" + Curps.arrPersonas[indice].anio);
+						String sexo;
+						if (Curps.arrPersonas[indice].Hombre == true) {
+							sexo = "Masculino";
+						} else {
+							sexo = "Femenino";
+						}
+						
+						lblSexo.setText(sexo);
+						lblEstado.setText(Curps.arrPersonas[indice].estado.getNombre());
+						lblCurp.setText(Curps.arrPersonas[indice].Curp);
+					} else {
+						JOptionPane.showMessageDialog(null, "No hay mas elementos en la lista para recorrer");
+					}
+				}catch(NullPointerException nullPointerException) {
+					JOptionPane.showMessageDialog(null, "No hay más elementos en la lista para recorrer");
 				}
-				
-				lblSexo.setText(sexo);
-				lblEstado.setText(Curps.arrPersonas[indice].estado.getNombre());
-				lblCurp.setText(Curps.arrPersonas[indice].Curp);
-				
-				if (indice < Curps.arrPersonas.length) {
-					indice--;
-				} else {
-					JOptionPane.showMessageDialog(null, "No hay mas elementos en la lista para recorrer");
-				}
-				
 			}
 		});
 		
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				System.out.println(Curps.arrPersonas[indice].nombre);
-				lblNombre.setText(Curps.arrPersonas[indice].nombre);
-				lblApellidos.setText(Curps.arrPersonas[indice].apellidoPaterno + " " + Curps.arrPersonas[indice].apellidoMaterno);
-				lblDate.setText(Curps.arrPersonas[indice].dia + "/" + Curps.arrPersonas[indice].mes + "/" + Curps.arrPersonas[indice].anio);
-				String sexo;
-				if (Curps.arrPersonas[indice].Hombre == true) {
-					sexo = "Masculino";
-				} else {
-					sexo = "Femenino";
-				}
-				
-				lblSexo.setText(sexo);
-				lblEstado.setText(Curps.arrPersonas[indice].estado.getNombre());
-				lblCurp.setText(Curps.arrPersonas[indice].Curp);
-				
-				if (indice < Curps.arrPersonas.length && indice >= 0) {
-					indice++;
-				} else {
-					JOptionPane.showMessageDialog(null, "No hay mas elementos en la lista para recorrer");
+				try {
+					if (indice < Curps.arrPersonas.length && indice >= -1) {
+						indice++;
+						System.out.println(Curps.arrPersonas[indice].nombre);
+						lblNombre.setText(Curps.arrPersonas[indice].nombre);
+						lblApellidos.setText(Curps.arrPersonas[indice].apellidoPaterno + " " + Curps.arrPersonas[indice].apellidoMaterno);
+						lblDate.setText(Curps.arrPersonas[indice].dia + "/" + Curps.arrPersonas[indice].mes + "/" + Curps.arrPersonas[indice].anio);
+						String sexo;
+						if (Curps.arrPersonas[indice].Hombre == true) {
+							sexo = "Masculino";
+						} else {
+							sexo = "Femenino";
+						}
+						
+						lblSexo.setText(sexo);
+						lblEstado.setText(Curps.arrPersonas[indice].estado.getNombre());
+						lblCurp.setText(Curps.arrPersonas[indice].Curp);
+					} else {
+						JOptionPane.showMessageDialog(null, "No hay mas elementos en la lista para recorrer");
+					}
+				}catch(NullPointerException nullPointerException) {
+					JOptionPane.showMessageDialog(null, "No hay más elementos en la lista para recorrer");
 				}
 			}
 		});

@@ -203,36 +203,52 @@ public class GUICurp extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Persona persona = new Persona();
+				boolean hayError = false;
 				
-				persona.setNombre(textNombre.getText().toUpperCase());
-				persona.setApellidoPaterno(textApellidoPaterno.getText().toUpperCase());
-				persona.setApellidoMaterno(textApellidoMaterno.getText().toUpperCase());
-				persona.setDia(cmbDia.getSelectedItem().toString());
-				persona.setMes(cmbMes.getSelectedIndex() + 1);
-				persona.setAnio(textAnio.getText());	
-				if(rdbtnMasculino.isSelected()) { 
-					persona.setHombre(true); 
-				} else { 
-					persona.setHombre(false);
+				try {
+					persona.setNombre(textNombre.getText().toUpperCase());
+					persona.setApellidoPaterno(textApellidoPaterno.getText().toUpperCase());
+					persona.setApellidoMaterno(textApellidoMaterno.getText().toUpperCase());
+					persona.setDia(cmbDia.getSelectedItem().toString());
+					persona.setMes(cmbMes.getSelectedIndex() + 1);
+					persona.setAnio(textAnio.getText());	
+					if(rdbtnMasculino.isSelected()) { 
+						persona.setHombre(true); 
+					} else { 
+						persona.setHombre(false);
+					}
+					persona.setEstado((Estado) cmbEstados.getSelectedItem());
+					persona.setIndice(Integer.toString(indice));
+					
+					String CURP = persona.generateCurp();
+					
+					persona.setCurp(CURP);
+				} catch(RuntimeException runtimeException) {
+					JOptionPane.showMessageDialog(null, "No se puede generar el CURP debido a que: " + runtimeException.getMessage());
+					hayError = true;
+					textNombre.setText("");
+					textApellidoPaterno.setText("");
+					textApellidoMaterno.setText("");
+					textAnio.setText("");
+					cmbDia.setSelectedIndex(0);
+					cmbMes.setSelectedIndex(0);
+					cmbEstados.setSelectedIndex(0);
+				} 
+				
+				if(hayError == false) {
+					JOptionPane.showMessageDialog(null, "Su CURP es: " + persona.getCurp());
+					Curps.arrPersonas[indice] = persona;
+					
+					indice++;
+					textNombre.setText("");
+					textApellidoPaterno.setText("");
+					textApellidoMaterno.setText("");
+					textAnio.setText("");
+					cmbDia.setSelectedIndex(0);
+					cmbMes.setSelectedIndex(0);
+					cmbEstados.setSelectedIndex(0);
 				}
-				persona.setEstado((Estado) cmbEstados.getSelectedItem());
-				persona.setIndice(Integer.toString(indice));
 				
-				String CURP = persona.generateCurp();
-				
-				persona.setCurp(CURP);
-				JOptionPane.showMessageDialog(null, "Su CURP es: " + CURP);
-				
-				Curps.arrPersonas[indice] = persona;
-				
-				indice++;
-				textNombre.setText("");
-				textApellidoPaterno.setText("");
-				textApellidoMaterno.setText("");
-				textAnio.setText("");
-				cmbDia.setSelectedIndex(0);
-				cmbMes.setSelectedIndex(0);
-				cmbEstados.setSelectedIndex(0);
 			}
 		});
 		btnNewButton.setBounds(102, 393, 160, 36);

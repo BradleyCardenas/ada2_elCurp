@@ -2,6 +2,8 @@ package ADAS.ada2_elCurp;
 
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 public class Persona {
 
 	String nombre;
@@ -22,8 +24,13 @@ public class Persona {
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String nombre) throws RuntimeException {
+		if(esNumero(nombre) == true) {
+			throw new RuntimeException("Solo se aceptan letras en el nombre");
+		} else {
+			this.nombre = nombre;
+		}
+		
 	}
 
 
@@ -32,8 +39,12 @@ public class Persona {
 	}
 
 
-	public void setApellidoPaterno(String apellidoPaterno) {
-		this.apellidoPaterno = apellidoPaterno;
+	public void setApellidoPaterno(String apellidoPaterno) throws RuntimeException {
+		if(esNumero(apellidoPaterno) == true ) {
+			throw new RuntimeException("Solo se aceptan letras en el apellido paterno");
+		} else {
+			this.apellidoPaterno = apellidoPaterno;
+		}
 	}
 
 
@@ -42,8 +53,12 @@ public class Persona {
 	}
 
 
-	public void setApellidoMaterno(String apellidoMaterno) {
-		this.apellidoMaterno = apellidoMaterno;
+	public void setApellidoMaterno(String apellidoMaterno) throws RuntimeException {
+		if(esNumero(apellidoMaterno) == true) {
+			throw new RuntimeException("Solo se aceptan letras en el apellido materno");
+		} else {
+			this.apellidoMaterno = apellidoMaterno;
+		}
 	}
 
 
@@ -76,10 +91,13 @@ public class Persona {
 
 
 	public void setAnio(String anio) {
-		this.anio = anio;
+		if (anio.length() != 4) {
+			generarError("La fecha tiene que ser de 4 dígitos");
+		} else {
+			this.anio = anio;
+		}
+		
 	}
-
-	
 
 	public boolean esHombre() {
 		return Hombre;
@@ -225,6 +243,18 @@ public class Persona {
 		return super.toString();
 	}
 	
+	public void generarError(String mensaje) throws RuntimeException {
+		throw new RuntimeException(mensaje);
+	}
+	
+	public boolean esNumero(String contenido) {
+		try {
+			Integer.parseInt(contenido);
+			return true;
+		} catch(NumberFormatException numberFormatException) {
+			return false;
+		}
+	}
 	
 	
 }
